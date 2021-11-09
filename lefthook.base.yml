@@ -1,0 +1,9 @@
+commit-msg:
+  commands:
+    lint-commit-msg:
+      run: sh node_modules/.bin/commitlint --edit ./.git/COMMIT_EDITMSG
+pre-commit:
+  parallel: true
+  commands:
+    lint-staged:
+      run: npx --no-install lint-staged --concurrent=true --allow-empty

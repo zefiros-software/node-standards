@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/**/*.ts",
+    "index.ts",
+  ],
+  "compilerOptions": {
+    "typeRoots": [
+      "./typings",
+      "./node_modules/@types"
+    ],
+    "incremental": false,
+    "noEmit": false,
+    "outDir": ".dist"
+  }
+}
