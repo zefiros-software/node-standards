@@ -1,0 +1,51 @@
+name: 'Setup Node.js'
+description: 'Setup a NodeJS environment and restore dependencies'
+
+inputs:
+  node-version:
+    description: 'Node version to use, default to (14.x)'
+    required: true
+    default: 14
+  working-directory:
+    description: 'From which directory do we need to set this up'
+    required: true
+    default: './'
+  global-packages:
+    description: 'Which global packages to install'
+    required: false
+    default: ''
+  exec:
+    description: 'Provisioning command'
+    required: false
+    default: ''
+outputs:
+  cache-hit:
+    description: 'Had an exact cache hit'
+    value: ${{ steps.cache.outputs.cache-hit }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Use Node.js ${{ inputs.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ inputs.node-version }}
+    - name: Cache dependencies
+      id: cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ inputs.working-directory }}node_modules
+        key: ${{ inputs.working-directory }}-node-modules-${{ inputs.node-version }}-${{ hashFiles('package-lock.json') }}
+    - name: Install global dependencies
+      if: ${{ inputs.global-packages != '' }}
+      run: npm install -g ${{ inputs.global-packages }}
+      shell: bash
+    - name: Provision
+      if: ${{ inputs.exec != '' }}
+      run: ${{ inputs.exec }}
+      shell: bash
+    - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci --ignore-scripts
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash

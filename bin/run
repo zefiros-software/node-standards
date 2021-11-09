@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+const { existsSync } = require('fs')
+const { join } = require('path')
+
+const project = join(__dirname, '../tsconfig.json')
+const dev = existsSync(project) && process.env.DEBUG != 'false'
+
+if (dev) {
+    const root = join(__dirname, '../')
+    const tsPaths = require('tsconfig-paths')
+    tsPaths.register({
+        ...tsPaths.loadConfig(root),
+        baseUrl: root,
+    })
+    require('ts-node').register({ project, pretty: true, files: true, transpileOnly: true })
+}
+
+require(`../${dev ? 'src' : 'dist/main'}`)
+    .run()
+    .catch(console.error)
