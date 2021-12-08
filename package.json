@@ -58,7 +58,7 @@
     "webpack.yargs.js"
   ],
   "scripts": {
-    "build": "npx webpack --version && npx webpack",
+    "build": "npx ts-node esbuild.config.ts",
     "check:cost": "npx cost-of-modules --no-install --include-dev",
     "check:coverage": "npx jest --collectCoverage=true",
     "check:full": "npm run lint && npm run check:types && npm run check:coverage && npm run build && npm run check:project",
@@ -85,6 +85,7 @@
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "conventional-changelog": "^3.1.24",
+    "esbuild": "^0.14.2",
     "eslint": "^8.3.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-typescript": "^2.5.0",

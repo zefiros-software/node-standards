@@ -8,6 +8,7 @@
     "test",
     "typings/**/*.ts",
     "typings/**/.*.ts",
+    "esbuild.config.ts",
     "*.js",
     ".*.js",
     "*.json",
