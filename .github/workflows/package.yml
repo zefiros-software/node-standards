@@ -1,0 +1,102 @@
+name: Typescript Package CI
+
+on: push
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-node
+        id: setup-node
+
+  check:
+    needs: setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-node
+      - run: npm run lint
+
+  types:
+    needs: setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-node
+      - run: npm run check:types
+
+  test:
+    needs: setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-node
+      - run: npm run check:coverage
+
+  build:
+    needs: setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-node
+      - run: npm run build
+      - name: Dist artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: node-standards
+          path: .dist
+
+  library:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download node standards
+        uses: actions/download-artifact@v2
+        with:
+          name: node-standards
+          path: .dist
+      - uses: ./.github/actions/setup-node
+        with:
+          working-directory: examples/library/
+          global-packages: yalc
+          preinstall: yalc publish --script=false && cd examples/library && yalc add @zefiros-software/node-standards
+      - run: npm run check:full
+        working-directory: examples/library
+
+  yargs:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download node standards
+        uses: actions/download-artifact@v2
+        with:
+          name: node-standards
+          path: .dist
+      - uses: ./.github/actions/setup-node
+        with:
+          working-directory: examples/yargs-cli/
+          global-packages: yalc
+          preinstall: yalc publish --script=false && cd examples/yargs-cli && yalc add @zefiros-software/node-standards
+      - run: npm run check:full
+        working-directory: examples/yargs-cli
+
+  release:
+    if: github.ref == 'refs/heads/next' || github.ref == 'refs/heads/main'
+    needs: [library, yargs, check, test, types]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-node
+      - uses: ./.github/actions/release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
