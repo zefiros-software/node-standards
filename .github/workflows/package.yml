@@ -96,6 +96,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-node
+        with:
+          postinstall: npm link
       - uses: ./.github/actions/release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

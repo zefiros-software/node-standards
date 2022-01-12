@@ -18,6 +18,10 @@ inputs:
     description: 'Preinstall command'
     required: false
     default: ''
+  postinstall:
+    description: 'Postinstall command'
+    required: false
+    default: ''
 outputs:
   cache-hit:
     description: 'Had an exact cache hit'
@@ -48,4 +52,8 @@ runs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: npm ci --ignore-scripts
       working-directory: ${{ inputs.working-directory }}
+      shell: bash
+    - name: Postinstall
+      if: ${{ inputs.postinstall != '' }}
+      run: ${{ inputs.postinstall }}
       shell: bash

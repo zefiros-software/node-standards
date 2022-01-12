@@ -11,6 +11,6 @@ runs:
         GIT_COMMITTER_NAME: 'Hoid'
         GIT_AUTHOR_EMAIL: 'hoid@zefiros.io'
         GIT_COMMITTER_EMAIL: 'hoid@zefiros.io'
-    - run: npx node-standards make-release
+    - run: npx --p @zefiros-software/node-standards make-release -- --registry https://npm.pkg.github.com
       shell: bash
       if: github.ref == 'refs/heads/next'
