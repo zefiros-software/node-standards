@@ -1,5 +1,4 @@
-name: 'Setup git'
-description: 'Setup a git environment ready to commit and push'
+name: 'Release using semantic release'
 
 runs:
   using: 'composite'
@@ -11,6 +10,3 @@ runs:
         GIT_COMMITTER_NAME: 'Hoid'
         GIT_AUTHOR_EMAIL: 'hoid@zefiros.io'
         GIT_COMMITTER_EMAIL: 'hoid@zefiros.io'
-    - run: npx --p @zefiros-software/node-standards make-release -- --registry https://npm.pkg.github.com
-      shell: bash
-      if: github.ref == 'refs/heads/next'
