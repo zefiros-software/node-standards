@@ -96,8 +96,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-node
+      - name: Download node standards
+        uses: actions/download-artifact@v2
         with:
-          postinstall: npm link
+          name: node-standards
+          path: .dist
       - uses: ./.github/actions/release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
