@@ -1,3 +1,10 @@
+# [1.0.0-beta.2](https://github.com/zefiros-software/node-standards/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2022-02-25)
+
+
+### Bug Fixes
+
+* **release:** download artifacts in the release job ([#7](https://github.com/zefiros-software/node-standards/issues/7)) ([54ad0e7](https://github.com/zefiros-software/node-standards/commit/54ad0e7c83eff6ecd1caeadbf12da13363264123))
+
 # 1.0.0-beta.1 (2022-01-12)
 
 
