@@ -95,12 +95,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ./.github/actions/setup-node
       - name: Download node standards
         uses: actions/download-artifact@v2
         with:
           name: node-standards
           path: .dist
+      - uses: ./.github/actions/setup-node
+        with:
+          postinstall: npm link
       - uses: ./.github/actions/release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
