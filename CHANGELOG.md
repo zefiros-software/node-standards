@@ -1,3 +1,10 @@
+# [1.0.0-beta.3](https://github.com/zefiros-software/node-standards/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2022-02-26)
+
+
+### Bug Fixes
+
+* **release:** postinstall npm link ([#8](https://github.com/zefiros-software/node-standards/issues/8)) ([8b62cb0](https://github.com/zefiros-software/node-standards/commit/8b62cb0f4ce39a8573dae78a637ec79cc064fa20))
+
 # [1.0.0-beta.2](https://github.com/zefiros-software/node-standards/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2022-02-25)
 
 

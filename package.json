@@ -1,7 +1,7 @@
 {
   "name": "@zefiros-software/node-standards",
   "description": "Build tools for Zefiros packages",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "license": "MIT",
   "main": ".dist/main.js",
   "types": ".dist/index.d.ts",
