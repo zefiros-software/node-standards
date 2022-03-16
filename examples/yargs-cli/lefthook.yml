@@ -1,2 +1,0 @@
-extends:
-  - ./node_modules/@zefiros-software/node-standards/lefthook.base.yml

@@ -1,23 +1,18 @@
-import { gitignore, spawn } from '../../common'
-import { rootDirectory } from '../../lib/config'
-import { repository, version } from '../../lib/constants'
+import { spawn, isIgnored } from '../../common'
+import { rootDirectory, version } from '../../lib/constants'
+import type { ProjectTemplate } from '../../lib/templates'
+import { templates, getTemplate } from '../../lib/templates'
 import { PackageType } from '../../lib/types'
 
 import AdmZip from 'adm-zip'
-import glob from 'picomatch'
 import type { Argv } from 'yargs'
 
-import fs, { readFileSync, rmSync } from 'fs'
+import fs, { rmSync } from 'fs'
 import type { IncomingHttpHeaders } from 'http'
 import https from 'https'
 import { tmpdir } from 'os'
 import path from 'path'
 import { promisify } from 'util'
-
-export const projectRoots: Record<string, string> = {
-    [PackageType.Library]: rootDirectory,
-    [PackageType.YargsCli]: rootDirectory,
-}
 
 function httpsGet(url: string): Promise<{ content: Buffer; headers: IncomingHttpHeaders }> {
     return new Promise<{ content: Buffer; headers: IncomingHttpHeaders }>((resolve, reject) => {
@@ -43,8 +38,7 @@ function httpsGet(url: string): Promise<{ content: Buffer; headers: IncomingHttp
 
 function createLocalZip(dir: string, type: string) {
     const zip = new AdmZip()
-    const ignorePatterns = glob(gitignore(readFileSync(path.join(dir, '.gitignore')).toString() ?? ''))
-    zip.addLocalFolder(path.join(dir, `examples/${type}`), '', (name) => !ignorePatterns(name))
+    zip.addLocalFolder(path.join(dir, `examples/${type}`), '', (name) => !isIgnored(name))
     return { zip, cleanup: () => true }
 }
 
@@ -56,23 +50,34 @@ async function createRemoteZip(url: string, type: string) {
 
     const entry = remoteZip.getEntry(rootFolder)
     if (entry !== null) {
-        console.log(entry)
         remoteZip.extractEntryTo(entry, tmpDir, true, true)
     }
     const { zip } = createLocalZip(`${tmpDir}/${rootFolder}`, type)
     return { zip, cleanup: () => rmSync(tmpDir, { recursive: true, force: true }) }
 }
 
-const [, repositoryUrl] = /(https:\/\/.*?)(?:\.git)?$/.exec(repository.url) ?? []
-export async function createProject(type: string, name: string, local: boolean): Promise<void> {
+export async function createProject({
+    type,
+    name,
+    local,
+    template,
+}: {
+    type: string
+    name: string
+    local: boolean
+    template: ProjectTemplate
+}): Promise<void> {
     const targetDir = path.resolve(process.cwd(), name)
 
     await spawn('git', ['init', targetDir])
 
-    const url = `${repositoryUrl}/archive/v${version}.zip`
-    const { zip, cleanup } = local ? createLocalZip(rootDirectory, type) : await createRemoteZip(url, type)
+    const { zip, cleanup } =
+        local || template.repositoryUrl === undefined
+            ? createLocalZip(template.roots[0], type)
+            : await createRemoteZip(`${template.repositoryUrl}/archive/v${version}.zip`, type)
 
-    await promisify(zip.extractAllToAsync.bind(zip))(targetDir, true)
+    const extractAllToAsync = promisify(zip.extractAllToAsync.bind(zip))
+    await extractAllToAsync(targetDir, true, undefined)
 
     cleanup()
 }
@@ -100,7 +105,13 @@ export function builder(yargs: Argv): Argv<{ local: boolean; name: string | unde
 
 export async function handler(argv: ReturnType<typeof builder>['argv']): Promise<void> {
     const { type, name, local } = await argv
-    await createProject(type, name!, local)
+
+    const template = getTemplate(templates, type)
+
+    if (template === undefined) {
+        throw new Error(`could not find a template with type ${type ?? 'undefined'}`)
+    }
+    await createProject({ type, name: name!, local, template })
 }
 
 export default {

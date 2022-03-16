@@ -1,4 +1,6 @@
 import * as commands from './commands'
+export * from './lib'
+export * from './commands'
 
 import { bin } from '../package.json'
 
@@ -9,9 +11,9 @@ import yargs from 'yargs'
 export async function run(): Promise<void> {
     install()
 
-    let cli = yargs.scriptName(Object.keys(bin)[0])
+    let cli = yargs.scriptName(Object.keys(bin)[0] ?? 'cli')
     for (const command of Object.values(commands)) {
-        cli = cli.command(command.default as CommandModule)
+        cli = cli.command(command.default as unknown as CommandModule)
     }
     await cli.demandCommand().strict().help().argv
 }
