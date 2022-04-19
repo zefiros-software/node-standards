@@ -16,7 +16,7 @@
   },
   "files": ["bin", ".dist", "package.json"],
   "scripts": {
-    "build": "npx webpack --version && npx webpack",
+    "build": "npx webpack --version && webpack",
     "check:cost": "npx cost-of-modules --no-install --include-dev",
     "check:coverage": "npx jest --collectCoverage=true",
     "check:full": "npm run lint && npm run check:types && npm run check:coverage && npm run build && npm run check:project",
@@ -27,6 +27,7 @@
     "lint": "npx eslint \"{src,test,typing}/**/*.{ts,js}\" --no-eslintrc --cache -c .eslintrc.js --ignore-path .gitignore",
     "lint:full": "bash -c \"FULL_LINT=true npm run lint\"",
     "package": "rm -rf .dist && npm run build",
+    "prepare": "npx husky install || true",
     "test": "npx jest"
   },
   "devDependencies": {
@@ -34,8 +35,8 @@
     "@zefiros-software/node-standards": "file:.yalc/@zefiros-software/node-standards",
     "source-map-support": "^0.5.21",
     "tslib": "^2.3.1",
-    "typescript": "^4.5.4",
-    "yargs": "^17.3.1"
+    "typescript": "^4.6.3",
+    "yargs": "^17.4.1"
   },
   "dependencies": {}
 }
