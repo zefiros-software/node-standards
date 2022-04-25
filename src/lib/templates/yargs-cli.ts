@@ -7,7 +7,7 @@ export const YargsCliTemplate: ProjectTemplate = {
     type: PackageType.YargsCli,
     repositoryUrl,
     scripts: undefined,
-    files: ['bin', '.dist', 'package.json'],
+    files: ['bin', '.main.js', '.main.js.map', 'index.d.ts', 'package.json'],
     dependencies: {
         tslib: undefined,
     },
@@ -18,8 +18,8 @@ export const YargsCliTemplate: ProjectTemplate = {
         yargs: devDependencies['yargs'],
     },
     definition: {
-        main: '.dist/main.js',
-        types: '.dist/index.d.ts',
+        main: '.main.js',
+        types: 'index.d.ts',
     },
     links: [PackageType.CommonTypescript],
     roots: [rootDirectory],

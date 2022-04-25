@@ -1,10 +1,7 @@
 .*
-node_modules
 
 !.github
 !.vscode
-!.npmrc
 
 !.gitignore
 !.gitkeep
-!.eslintrc.*

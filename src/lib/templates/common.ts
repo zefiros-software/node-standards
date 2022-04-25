@@ -23,7 +23,8 @@ export const CommonTypescriptTemplate: ProjectTemplate = {
     type: PackageType.CommonTypescript,
     repositoryUrl,
     scripts: {
-        ['build']: 'npx webpack --version && webpack',
+        ['build']: 'npx ts-node esbuild.config.ts',
+        ['build:clean']: 'npx tsc --build --clean && rm .main.js && rm .main.js.map',
         ['check:cost']: 'npx cost-of-modules --no-install --include-dev',
         ['check:coverage']: 'npx jest --collectCoverage=true',
         ['check:full']: 'npm run lint && npm run check:types && npm run check:coverage && npm run build && npm run check:project',
