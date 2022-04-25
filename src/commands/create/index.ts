@@ -38,7 +38,12 @@ function httpsGet(url: string): Promise<{ content: Buffer; headers: IncomingHttp
 
 function createLocalZip(dir: string, type: string) {
     const zip = new AdmZip()
-    zip.addLocalFolder(path.join(dir, `examples/${type}`), '', (name) => !isIgnored(name))
+    zip.addLocalFolder(path.join(dir, `examples/${type}`), '', (name) => {
+        if (name.includes('node_modules')) {
+            return false
+        }
+        return !isIgnored(name)
+    })
     return { zip, cleanup: () => true }
 }
 
