@@ -93,7 +93,7 @@ jobs:
       - uses: ./.github/actions/setup-node
       - uses: ./.github/actions/release
         with:
-          dry_run: ${{ github.ref == 'refs/heads/next' || github.ref == 'refs/heads/main' }}
+          dry_run: ${{ (github.ref == 'refs/heads/next' || github.ref == 'refs/heads/main') && 'false' || 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}

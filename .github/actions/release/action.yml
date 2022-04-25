@@ -9,7 +9,16 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: npx semantic-release ${{ inputs.dry_run == 'false' && '' || '--dry-run' }}
+    - if: ${{ inputs.dry_run == 'false' }}
+      run: npx semantic-release
+      shell: bash
+      env:
+        GIT_AUTHOR_NAME: "Hoid"
+        GIT_COMMITTER_NAME: "Hoid"
+        GIT_AUTHOR_EMAIL: "hoid@zefiros.io"
+        GIT_COMMITTER_EMAIL: "hoid@zefiros.io"
+    - if: ${{ inputs.dry_run == 'true' }}
+      run: npx semantic-release --dry-run
       shell: bash
       env:
         GIT_AUTHOR_NAME: "Hoid"
