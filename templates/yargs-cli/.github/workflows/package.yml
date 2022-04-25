@@ -1,0 +1,16 @@
+name: Typescript Package CI
+
+on: push
+
+jobs:
+  typescript:
+    uses: zefiros-software/node-standards/.github/workflows/reusable-typescript.yml@next
+
+  build:
+    uses: zefiros-software/node-standards/.github/workflows/reusable-build.yml@next
+
+  release:
+    needs: [library, yargs, typescript, build]
+    uses: zefiros-software/node-standards/.github/workflows/reusable-release.yml@next
+    with:
+      build_artifact_name: ${{ needs.build.outputs.artifact_name }}

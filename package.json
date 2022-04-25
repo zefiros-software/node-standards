@@ -22,7 +22,8 @@
         "prettier.config.js",
         "release.config.js",
         "tsconfig.dist.json",
-        "tsconfig.json"
+        "tsconfig.json",
+        ".github/workflows/package.yml"
       ],
       "ignore": {
         "files": true
