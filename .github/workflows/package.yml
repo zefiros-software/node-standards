@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-node
       - run: npm run lint
 
@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-node
       - run: npm run check:types
 
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-node
       - run: npm run check:coverage
 
@@ -31,11 +31,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-node
       - run: npm run build
       - name: Dist artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: node-standards
           path: |
@@ -49,9 +49,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Download node standards
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: node-standards
       - uses: ./.github/actions/setup-node
@@ -67,9 +67,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Download node standards
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: node-standards
       - uses: ./.github/actions/setup-node
@@ -84,12 +84,11 @@ jobs:
     needs: [library, yargs, check, test, types]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Download node standards
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: node-standards
-          path: .dist
       - uses: ./.github/actions/setup-node
       - uses: ./.github/actions/release
         with:
