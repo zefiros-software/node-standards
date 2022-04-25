@@ -16,6 +16,7 @@
     ".main.js",
     ".main.js.map",
     "index.d.ts",
+    "src/**/*.d.ts",
     "package.json"
   ],
   "scripts": {

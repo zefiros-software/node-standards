@@ -7,7 +7,7 @@ export const LibraryTemplate: ProjectTemplate = {
     type: PackageType.Library,
     repositoryUrl,
     scripts: undefined,
-    files: ['.main.js', '.main.js.map', 'index.d.ts', 'package.json'],
+    files: ['.main.js', '.main.js.map', 'index.d.ts', 'src/**/*.d.ts', 'package.json'],
     dependencies: undefined,
     devDependencies: undefined,
     definition: {

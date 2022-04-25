@@ -7,7 +7,7 @@ export const YargsCliTemplate: ProjectTemplate = {
     type: PackageType.YargsCli,
     repositoryUrl,
     scripts: undefined,
-    files: ['bin', '.main.js', '.main.js.map', 'index.d.ts', 'package.json'],
+    files: ['bin', '.main.js', '.main.js.map', 'index.d.ts', 'src/**/*.d.ts', 'package.json'],
     dependencies: {
         tslib: undefined,
     },
