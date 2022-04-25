@@ -1,26 +1,30 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true,
+    "declaration": true,
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "exactOptionalPropertyTypes": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "lib": [
+      "esnext.asynciterable",
+      "esnext"
+    ],
     "module": "commonjs",
     "moduleResolution": "node",
-    "sourceMap": true,
-    "alwaysStrict": true,
-    "esModuleInterop": true,
-    "lib": ["esnext.asynciterable", "esnext"],
-    "importHelpers": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "strictNullChecks": true,
-    "noImplicitReturns": true,
-    "noImplicitAny": true,
-    "forceConsistentCasingInFileNames": true,
-    "downlevelIteration": true,
     "noEmit": true,
-    "strict": true,
-    "declaration": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
     "resolveJsonModule": true,
-    "useUnknownInCatchVariables": true,
-    "exactOptionalPropertyTypes": true
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "target": "es2020",
+    "useUnknownInCatchVariables": true
   }
 }

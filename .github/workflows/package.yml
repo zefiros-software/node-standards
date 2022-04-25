@@ -3,15 +3,7 @@ name: Typescript Package CI
 on: push
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/setup-node
-        id: setup-node
-
   check:
-    needs: setup
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +12,6 @@ jobs:
       - run: npm run lint
 
   types:
-    needs: setup
     runs-on: ubuntu-latest
 
     steps:
@@ -29,7 +20,6 @@ jobs:
       - run: npm run check:types
 
   test:
-    needs: setup
     runs-on: ubuntu-latest
 
     steps:
@@ -38,7 +28,6 @@ jobs:
       - run: npm run check:coverage
 
   build:
-    needs: setup
     runs-on: ubuntu-latest
 
     steps:
@@ -49,7 +38,11 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-standards
-          path: .dist
+          path: |
+            .main.js
+            .main.js.map
+            index.d.ts
+            src/**/*.d.ts
 
   library:
     needs: build
@@ -61,7 +54,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: node-standards
-          path: .dist
       - uses: ./.github/actions/setup-node
         with:
           working-directory: examples/library/
@@ -80,7 +72,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: node-standards
-          path: .dist
       - uses: ./.github/actions/setup-node
         with:
           working-directory: examples/yargs-cli/
@@ -90,7 +81,6 @@ jobs:
         working-directory: examples/yargs-cli
 
   release:
-    if: github.ref == 'refs/heads/next' || github.ref == 'refs/heads/main'
     needs: [library, yargs, check, test, types]
     runs-on: ubuntu-latest
     steps:
@@ -101,9 +91,9 @@ jobs:
           name: node-standards
           path: .dist
       - uses: ./.github/actions/setup-node
-        with:
-          postinstall: npm link
       - uses: ./.github/actions/release
+        with:
+          dry_run: ${{ github.ref == 'refs/heads/next' || github.ref == 'refs/heads/main' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
