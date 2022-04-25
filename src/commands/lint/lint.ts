@@ -85,7 +85,7 @@ export class ProjectLinter {
                 console.log(`Writing ${target}`)
                 const dir = path.dirname(target)
                 if (!fs.existsSync(dir)) {
-                    fs.mkdirSync(dir)
+                    fs.mkdirSync(dir, { recursive: true })
                 }
                 fs.writeFileSync(target, newContent)
             }

@@ -17,6 +17,10 @@ on:
         type: string
         required: false
         default: build-artifacts
+    secrets:
+      GITHUB_NPM_TOKEN:
+        description: Token to install GitHub packages with
+        required: false
     outputs:
       artifact_name:
         value: ${{ jobs.build.outputs.artifact_name }}
@@ -28,6 +32,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: zefiros-software/node-standards/.github/actions/setup-node@next
+        env:
+          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_NPM_TOKEN }}
       - run: npm run build
       - name: Dist artifacts
         uses: actions/upload-artifact@v3
