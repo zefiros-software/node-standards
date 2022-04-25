@@ -1,0 +1,47 @@
+name: Reusable Typescript Pipeline
+
+on:
+  workflow_call:
+    inputs:
+      artifact_path:
+        description: Path of the build artifacts (multi-line)
+        type: string
+        required: false
+        default: |
+          .main.js
+          .main.js.map
+          index.d.ts
+          src/**/*.d.ts
+      artifact_name:
+        description: Custom name of the build artifacts
+        type: string
+        required: false
+        default: build-artifacts
+    outputs:
+      artifact_name:
+        value: ${{ jobs.build.outputs.artifact_name }}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: zefiros-software/node-standards/.github/actions/setup-node@next
+      - run: npm run lint
+
+  types:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: zefiros-software/node-standards/.github/actions/setup-node@next
+      - run: npm run check:types
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: zefiros-software/node-standards/.github/actions/setup-node@next
+      - run: npm run check:coverage

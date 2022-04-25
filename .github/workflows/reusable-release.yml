@@ -1,0 +1,30 @@
+name: Reusable release pipeline for NodeJS projects
+
+on:
+  workflow_call:
+    inputs:
+      build_artifact_name:
+        description: Name of the build artifact
+        type: string
+        required: true
+      build_artifact_path:
+        required: false
+        type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download node standards
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.build_artifact_name }}
+          path: ${{ inputs.build_artifact_path }}
+      - uses: zefiros-software/node-standards/.github/actions/setup-node@next
+      - uses: zefiros-software/node-standards/.github/actions/release@next
+        with:
+          dry_run: ${{ (github.ref == 'refs/heads/next' || github.ref == 'refs/heads/main') && 'false' || 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}

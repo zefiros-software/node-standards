@@ -3,49 +3,14 @@ name: Typescript Package CI
 on: push
 
 jobs:
-  check:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-node
-      - run: npm run lint
-
-  types:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-node
-      - run: npm run check:types
-
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-node
-      - run: npm run check:coverage
+  typescript:
+    uses: zefiros-software/node-standards/.github/workflows/reusable-typescript.yml@next
 
   build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-node
-      - run: npm run build
-      - name: Dist artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: node-standards
-          path: |
-            .main.js
-            .main.js.map
-            index.d.ts
-            src/**/*.d.ts
+    uses: zefiros-software/node-standards/.github/workflows/reusable-build.yml@next
 
   library:
-    needs: build
+    needs: [build]
     runs-on: ubuntu-latest
 
     steps:
@@ -53,8 +18,8 @@ jobs:
       - name: Download node standards
         uses: actions/download-artifact@v3
         with:
-          name: node-standards
-      - uses: ./.github/actions/setup-node
+          name: ${{ needs.build.outputs.artifact_name }}
+      - uses: zefiros-software/node-standards/.github/actions/setup-node@next
         with:
           working-directory: examples/library/
           global-packages: yalc
@@ -63,7 +28,7 @@ jobs:
         working-directory: examples/library
 
   yargs:
-    needs: build
+    needs: [build]
     runs-on: ubuntu-latest
 
     steps:
@@ -71,8 +36,8 @@ jobs:
       - name: Download node standards
         uses: actions/download-artifact@v3
         with:
-          name: node-standards
-      - uses: ./.github/actions/setup-node
+          name: ${{ needs.build.outputs.artifact_name }}
+      - uses: zefiros-software/node-standards/.github/actions/setup-node@next
         with:
           working-directory: examples/yargs-cli/
           global-packages: yalc
@@ -81,18 +46,7 @@ jobs:
         working-directory: examples/yargs-cli
 
   release:
-    needs: [library, yargs, check, test, types]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Download node standards
-        uses: actions/download-artifact@v3
-        with:
-          name: node-standards
-      - uses: ./.github/actions/setup-node
-      - uses: ./.github/actions/release
-        with:
-          dry_run: ${{ (github.ref == 'refs/heads/next' || github.ref == 'refs/heads/main') && 'false' || 'true' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    needs: [library, yargs, typescript, build]
+    uses: zefiros-software/node-standards/.github/workflows/reusable-release.yml@next
+    with:
+      build_artifact_name: ${{ needs.build.outputs.artifact_name }}
