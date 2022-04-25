@@ -31,12 +31,12 @@ runs:
   using: "composite"
   steps:
     - name: Use Node.js ${{ inputs.node-version }}
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ inputs.node-version }}
     - name: Cache dependencies
       id: cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ${{ inputs.working-directory }}node_modules
         key: ${{ inputs.working-directory }}-node-modules-${{ inputs.node-version }}-${{ hashFiles('package-lock.json') }}
