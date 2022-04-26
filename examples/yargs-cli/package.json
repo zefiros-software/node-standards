@@ -14,14 +14,7 @@
   "node-standards": {
     "type": "yargs-cli"
   },
-  "files": [
-    "bin",
-    ".main.js",
-    ".main.js.map",
-    "index.d.ts",
-    "src/**/*.d.ts",
-    "package.json"
-  ],
+  "files": ["bin", ".main.js", ".main.js.map", "index.d.ts", "src/**/*.d.ts", "package.json"],
   "scripts": {
     "build": "npx ts-node esbuild.config.ts",
     "build:clean": "npx tsc --build --clean && rm .main.js && rm .main.js.map",
@@ -32,7 +25,7 @@
     "check:types": "npx tsc -p tsconfig.json",
     "fix": "npm run lint -- --fix",
     "format": "npx prettier \"**/*.{ts,js,json,yml,yaml}\" --ignore-path .gitignore --write",
-    "lint": "npx eslint \"{src,test,typing}/**/*.{ts,js}\" --no-eslintrc --cache -c .eslintrc.js --ignore-path .gitignore",
+    "lint": "npx eslint \"{src,test,typing}/**/*.ts\" --no-eslintrc --cache -c .eslintrc.js --ignore-path .gitignore",
     "lint:full": "bash -c \"FULL_LINT=true npm run lint\"",
     "package": "rm -rf .dist && npm run build",
     "prepare": "npx husky install || true",

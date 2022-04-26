@@ -65,7 +65,7 @@
     "check:types": "npx tsc -p tsconfig.json",
     "fix": "npm run lint -- --fix",
     "format": "npx prettier \"**/*.{ts,js,json,yml,yaml}\" --ignore-path .gitignore --write",
-    "lint": "npx eslint \"{src,test,typing}/**/*.{ts,js}\" --no-eslintrc --cache -c .eslintrc.js --ignore-path .gitignore",
+    "lint": "npx eslint \"{src,test,typing}/**/*.ts\" --no-eslintrc --cache -c .eslintrc.js --ignore-path .gitignore",
     "lint:full": "bash -c \"FULL_LINT=true npm run lint\"",
     "package": "rm -rf .dist && npm run build",
     "postyalcpublish": "cd examples/library && npx yalc add @zefiros-software/node-standards && cd ../yargs-cli && npx yalc add @zefiros-software/node-standards",
