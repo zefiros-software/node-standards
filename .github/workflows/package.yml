@@ -5,6 +5,8 @@ on: push
 jobs:
   typescript:
     uses: zefiros-software/node-standards/.github/workflows/reusable-typescript.yml@next
+    with:
+      standards_postinstall: npm link
     secrets:
       GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
