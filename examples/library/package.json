@@ -30,10 +30,10 @@
     "test": "npx jest"
   },
   "dependencies": {
-    "tslib": "^2.3.1"
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@zefiros-software/node-standards": "file:.yalc/@zefiros-software/node-standards",
-    "typescript": "^4.6.3"
+    "typescript": "^4.7.3"
   }
 }

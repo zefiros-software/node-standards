@@ -11,7 +11,7 @@ export function builder(yargs: Argv): Argv<{ name: string; file: unknown }> {
 }
 
 export async function handler(argv: ReturnType<typeof builder>['argv']): Promise<number> {
-    console.log(`goodbye ${argv.name} from ./src/commands/goodbye.ts`)
+    console.log(`goodbye ${(await argv).name} from ./src/commands/goodbye.ts`)
     return Promise.resolve(0)
 }
 

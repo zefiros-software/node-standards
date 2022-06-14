@@ -13,6 +13,6 @@ export async function run(): Promise<void> {
     for (const command of Object.values(commands)) {
         cli = cli.command(command.default as unknown as CommandModule)
     }
-    // eslint-disable-next-line @typescript-eslint/await-thenable
+
     await cli.demandCommand().strict().help().argv
 }

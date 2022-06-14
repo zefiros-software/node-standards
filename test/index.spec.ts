@@ -11,3 +11,7 @@ test('maintwo', () => {
         }
     `)
 })
+
+test('timer', () => {
+    expect(new Date()).toEqual(new Date(2022, 1, 10))
+})
