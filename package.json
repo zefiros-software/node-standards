@@ -23,9 +23,10 @@
         "release.config.js",
         "tsconfig.dist.json",
         "tsconfig.json",
+        "typedoc.js",
         ".github/workflows/package.yml"
       ],
-      "ignore": {
+      "lintPackage": {
         "files": true
       }
     }
@@ -40,24 +41,26 @@
   },
   "files": [
     ".eslintrc.base.js",
+    ".main.js.map",
+    ".main.js",
     "babel.config.js",
     "bin",
     "commitlint.config.js",
-    ".main.js",
-    ".main.js.map",
     "index.d.ts",
-    "src/**/*.d.ts",
     "jest.config.js",
     "lint-staged.config.js",
     "package.json",
     "prettier.config.js",
     "release.config.js",
+    "src/**/*.d.ts",
     "templates",
-    "tsconfig.base.json"
+    "tsconfig.base.json",
+    "typedoc.js"
   ],
   "scripts": {
     "build": "npx ts-node esbuild.config.ts",
     "build:clean": "npx tsc --build --clean && rm .main.js && rm .main.js.map",
+    "build:docs": "npx typedoc",
     "check:cost": "npx cost-of-modules --no-install --include-dev",
     "check:coverage": "npx jest --collectCoverage=true",
     "check:full": "npm run lint && npm run check:types && npm run check:coverage && npm run build && npm run check:project",

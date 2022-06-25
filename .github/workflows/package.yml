@@ -57,7 +57,7 @@ jobs:
 
   release:
     needs: [library, yargs, typescript, build]
-    uses: zefiros-software/node-standards/.github/workflows/reusable-release.yml@next
+    uses: zefiros-software/node-standards/.github/workflows/reusable-release.yml@feat/typedoc
     with:
       build_artifact_name: ${{ needs.build.outputs.artifact_name }}
     secrets:

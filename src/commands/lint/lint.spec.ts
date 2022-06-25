@@ -68,7 +68,7 @@ describe('lint definition', () => {
         const config: PackageConfiguration = {
             type: PackageType.YargsCli,
             template: {
-                ignore: {
+                lintPackage: {
                     definition: true,
                 },
             },
@@ -121,7 +121,7 @@ describe('lint package files', () => {
         const config: PackageConfiguration = {
             type: PackageType.YargsCli,
             template: {
-                ignore: {
+                lintPackage: {
                     files: true,
                 },
             },
@@ -180,7 +180,7 @@ describe('lint script', () => {
         const config: PackageConfiguration = {
             type: PackageType.YargsCli,
             template: {
-                ignore: {
+                lintPackage: {
                     script: true,
                 },
             },
@@ -280,7 +280,7 @@ describe('lint dependencies', () => {
         const config: PackageConfiguration = {
             type: PackageType.YargsCli,
             template: {
-                ignore: {
+                lintPackage: {
                     dependencies: true,
                 },
             },
@@ -415,7 +415,7 @@ describe('lint devDependencies', () => {
         const config: PackageConfiguration = {
             type: PackageType.YargsCli,
             template: {
-                ignore: {
+                lintPackage: {
                     devDependencies: true,
                 },
             },
